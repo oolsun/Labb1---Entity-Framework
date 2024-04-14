@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Labb1.Models.Vacation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Översikt</h1>
+
+<p>
+    <a asp-action="Create">Registrera ny frånvaro</a>
+</p>
+
+<p>Sortera efter anställd: </p>
+
+@using (Html.BeginForm("Index", "Vacations", FormMethod.Get))
+{
+    <select name="selectedEmployeeId">
+        <option value="">Alla anställda</option>
+        @foreach (var item in ViewBag.EmployeeList)
+        {
+            <option value="@item.Value">@item.Text</option>
+        }
+    </select>
+    <input type="submit" value="Filtrera">
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FK_EmployeeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VacationType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationDate)
+            </th>
+            <th>
+                Antal dagar
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            TimeSpan days = item.EndDate - item.StartDate;
+            int daysLeave = days.Days;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.FirstName) @Html.DisplayFor(modelItem => item.Employee.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VacationType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationDate)
+            </td>
+                <td>
+                    @daysLeave
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VacationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VacationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VacationId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

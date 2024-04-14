@@ -1,0 +1,54 @@
+﻿@model Labb1.Models.Vacation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Registrera frånvaro</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="VacationType" class="control-label"></label>
+                <select asp-for="VacationType" class="form-control">
+                    <option value="Semester">Semester</option>
+                    <option value="VAB">Vård av barn</option>
+                    <option value="Tjänstledig">Tjänstledig</option>
+                    <option value="Föräldraledig">Föräldraledig</option>
+                    <option value="Övrigt">Övrigt</option>
+                </select>
+                <span asp-validation-for="VacationType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FK_EmployeeId" class="control-label"></label>
+                <select asp-for="FK_EmployeeId" class="form-control" asp-items="ViewBag.FK_EmployeeId">
+                    <option value="">---Välj anställd---</option>
+                    </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lägg till" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Tillbaka till översikt</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
